@@ -8,12 +8,19 @@ app.use(express.json());
 
 
 app.get('/users', (req, res, next) => {
-  // console.log(Users);
   Users.find()
     .then((results) => {
       res.end(JSON.stringify(results));
     })
     .catch(next)
+});
+
+app.post('/users', (req, res, next) => {
+  Users.create(req.body)
+    .then((results) => {
+      res.end(JSON.stringify(results));
+    })
+    .catch(next);
 });
 
 app.listen(port, () => console.log(`Grocery List listen on port ${port}`));
