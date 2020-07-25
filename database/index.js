@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/groceries',  {});
+mongoose.connect('mongodb://localhost:27017/groceries', {});
 
 const db = mongoose.connection;
 db.on('error', (err) => console.log(err));
