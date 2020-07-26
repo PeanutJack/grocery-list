@@ -1,13 +1,13 @@
-#user-list {
+#user-list, #grocery-list {
   margin: auto;
   display: flex;
   flex-wrap: wrap;
   width: 30%;
   justify-content: center;
+  font-size: 40px;
 }
 
-.user-item {
-  font-size: 40px;
+.user-item, .grocery-item {
   height: 50px;
   width: 100%;
   border: 1px solid blue;

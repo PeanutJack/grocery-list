@@ -2,13 +2,26 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import UserList from './components/UserList.jsx';
+import GroceryList from './components/GroceryList.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: []
+      view: 'users',
+      users: [],
+      current: {}
     };
+    this.userClick = this.userClick.bind(this);
+    this.resetView = this.resetView.bind(this);
+  }
+
+  userClick(user) {
+    this.setState({ current: user, view: 'list' });
+  }
+
+  resetView() {
+    this.setState({ view: 'users' });
   }
 
   componentDidMount() {
@@ -19,12 +32,17 @@ class App extends React.Component {
   }
 
   render() {
-    var { users } = this.state;
-    return (
-      <div>I'm a React App!
-        <UserList users={users} />
-      </div>
-    );
+    var { view, users, current } = this.state;
+    if (view === 'users') {
+      return (
+        <UserList users={users} userClick={this.userClick}/>
+      );
+    }
+    if (view === 'list') {
+      return (
+        <GroceryList user={current} resetView={this.resetView}/>
+      )
+    }
   }
 };
 

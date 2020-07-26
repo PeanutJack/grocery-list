@@ -1,11 +1,11 @@
 import React from 'react';
 
-var UserList = (props) => {
+var UserList = ({ users, userClick }) => {
   return (
     <div id="user-list">
-      {props.users.map((user) => {
+      {users.map((user) => {
         return (
-          <div class="user-item">{user.name}</div>
+          <div class="user-item" onClick={() => userClick(user)}>{user.name}</div>
         )
       })}
     </div>
