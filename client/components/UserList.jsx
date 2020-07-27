@@ -9,7 +9,7 @@ var UserList = ({ users, userClick }) => {
         )
       })}
     </div>
-  )
+  );
 };
 
 export default UserList;

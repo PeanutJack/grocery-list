@@ -2,26 +2,32 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import UserList from './components/UserList.jsx';
+import UserCreate from './components/UserCreate.jsx';
 import GroceryList from './components/GroceryList.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      view: 'users',
+      view: 'UserList',
       users: [],
       current: {}
     };
     this.userClick = this.userClick.bind(this);
+    this.newUser = this.newUser.bind(this);
     this.resetView = this.resetView.bind(this);
   }
 
   userClick(user) {
-    this.setState({ current: user, view: 'list' });
+    this.setState({ current: user, view: 'GroceryList' });
+  }
+
+  newUser() {
+    this.setState({ view: 'UserCreate'});
   }
 
   resetView() {
-    this.setState({ view: 'users' });
+    this.setState({ view: 'UserList' });
   }
 
   componentDidMount() {
@@ -33,17 +39,25 @@ class App extends React.Component {
 
   render() {
     var { view, users, current } = this.state;
-    if (view === 'users') {
+    if (view === 'UserList') {
       return (
-        <UserList users={users} userClick={this.userClick}/>
+        <>
+          <button onClick={this.newUser}>New here? Click me.</button>
+          <UserList users={users} userClick={this.userClick} newUser={this.newUser} />
+        </>
       );
     }
-    if (view === 'list') {
+    if (view === 'GroceryList') {
       return (
         <GroceryList user={current} resetView={this.resetView}/>
-      )
+      );
+    }
+    if (view === 'UserCreate') {
+      return (
+        <UserCreate />
+      );
     }
   }
 };
 
-ReactDOM.render(<App/>, document.getElementById('App'));
+ReactDOM.render(<App />, document.getElementById('App'));
