@@ -8,6 +8,7 @@ class UserCreate extends React.Component {
     this.state = {
       name: '',
       zip: '',
+      range: '',
       locations: []
     };
     this.changeHandler = this.changeHandler.bind(this);
@@ -17,10 +18,8 @@ class UserCreate extends React.Component {
 
   formSubmit(e) {
     e.preventDefault();
-    console.log('submitted', this.state.zip, this.state.name);
-    axios.get(`http://localhost:3000/kroger/location/${this.state.zip}`)
+    axios.get(`http://localhost:3000/kroger/location/${this.state.zip}/${this.state.range}`)
       .then(({ data }) => {
-        console.log(data);
         this.setState({ locations: data.data });
       })
       .catch((err) => {
@@ -55,12 +54,14 @@ class UserCreate extends React.Component {
   render() {
     return (<>
       <div id='user-create'>
-        Type in your name and ZIP code, click submit, then select a store to complete registration.
+        Type in your name, ZIP code, and search range, click submit, then select a store to complete registration.
         <form>
           <label for='name'>Name:</label>
           <input onChange={this.changeHandler} type='text' name='name'></input>
           <label for='zip'>Zip-code:</label>
           <input onChange={this.changeHandler} type='text' name='zip'></input>
+          <label for='range'>Range (in miles):</label>
+          <input onChange={this.changeHandler} type='text' name='range'></input>
           <button onClick={this.formSubmit}>Submit</button>
         </form>
       </div>

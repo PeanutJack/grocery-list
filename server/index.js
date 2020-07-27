@@ -9,7 +9,8 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-// Get/Refresh Kroger tokens
+// Get/Refresh Kroger tokens (auto-refresh TODO)
+
 var krogerLocationToken;
 var krogerProductToken;
 
@@ -63,12 +64,27 @@ app.get('/users/:_id', (req, res, next) => {
     .catch(next);
 });
 
-app.get('/kroger/location/:zip', (req, res, next) => {
+app.get('/kroger/location/:zip/:range', (req, res, next) => {
   console.log('zip lookup recieved at: ', req.params.zip);
-  axios.get(`https://api.kroger.com/v1/locations/?filter.zipCode.near=${req.params.zip}&filter.limit=100`, {
+  axios.get(`https://api.kroger.com/v1/locations/?filter.zipCode.near=${req.params.zip}&filter.limit=100&filter.radiusInMiles=${req.params.range}`, {
     headers: {
       Accept: 'application/json',
       Authorization: `Bearer ${krogerLocationToken}`
+    }
+  })
+    .then(({ data }) => {
+      res.end(JSON.stringify(data));
+    })
+    .catch(next);
+});
+
+app.get('/kroger/product/:locationId/:item', (req, res, next) => {
+  var { item, locationId } = req.params;
+  console.log(`'product lookup recieved for: ${item} at ${locationId}`);
+  axios.get(`https://api.kroger.com/v1/products/?filter.term=${item}&filter.locationId=${locationId}`, {
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${krogerProductToken}`
     }
   })
     .then(({ data }) => {
