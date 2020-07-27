@@ -64,8 +64,8 @@ app.get('/users/:_id', (req, res, next) => {
 });
 
 app.get('/kroger/location/:zip', (req, res, next) => {
-  console.log('zip lookup recieved');
-  axios.get(`https://api.kroger.com/v1/locations/?filter.zipCode.near=${req.params.zip}`, {
+  console.log('zip lookup recieved at: ', req.params.zip);
+  axios.get(`https://api.kroger.com/v1/locations/?filter.zipCode.near=${req.params.zip}&filter.limit=100`, {
     headers: {
       Accept: 'application/json',
       Authorization: `Bearer ${krogerLocationToken}`

@@ -26,7 +26,8 @@ class App extends React.Component {
     this.setState({ view: 'UserCreate'});
   }
 
-  resetView() {
+  resetView(newState) {
+    this.setState(newState);
     this.setState({ view: 'UserList' });
   }
 
@@ -40,12 +41,10 @@ class App extends React.Component {
   render() {
     var { view, users, current } = this.state;
     if (view === 'UserList') {
-      return (
-        <>
-          <button onClick={this.newUser}>New here? Click me.</button>
-          <UserList users={users} userClick={this.userClick} newUser={this.newUser} />
-        </>
-      );
+      return (<>
+        <button onClick={this.newUser}>New here? Click me.</button>
+        <UserList users={users} userClick={this.userClick} newUser={this.newUser} />
+      </>);
     }
     if (view === 'GroceryList') {
       return (
@@ -54,7 +53,7 @@ class App extends React.Component {
     }
     if (view === 'UserCreate') {
       return (
-        <UserCreate />
+        <UserCreate resetView={this.resetView} users={users}/>
       );
     }
   }
