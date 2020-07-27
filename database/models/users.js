@@ -6,7 +6,7 @@ module.exports = mongoose.model('Users', new mongoose.Schema({
   list: [{
     name: String,
     price: Number,
-    size: Number,
+    size: String,
     measurement: String,
     productId: String
   }]
