@@ -81,7 +81,7 @@ app.get('/kroger/location/:zip/:range', (req, res, next) => {
 app.get('/kroger/product/:locationId/:item', (req, res, next) => {
   var { item, locationId } = req.params;
   console.log(`'product lookup recieved for: ${item} at ${locationId}`);
-  axios.get(`https://api.kroger.com/v1/products/?filter.term=${item}&filter.locationId=${locationId}`, {
+  axios.get(`https://api.kroger.com/v1/products/?filter.term=${item}&filter.locationId=${locationId}&filter.limit=50`, {
     headers: {
       Accept: 'application/json',
       Authorization: `Bearer ${krogerProductToken}`

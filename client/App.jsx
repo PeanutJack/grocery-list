@@ -34,7 +34,7 @@ class App extends React.Component {
     var { current } = this.state;
     var temp = {
       name: product.description,
-      price: product.items[0].price.regular,
+      price: product.items[0].price ? product.items[0].price.regular : null,
       size: product.items[0].size.split(' ')[0],
       measurement: product.items[0].size.split(' ').slice(1).join(' '),
       productId: product.productId
