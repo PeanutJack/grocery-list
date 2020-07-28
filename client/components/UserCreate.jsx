@@ -41,10 +41,10 @@ class UserCreate extends React.Component {
     };
     var { users } = this.props;
     axios.post(`http://localhost:3000/users`, newUser)
-      .then(() => {
-        console.log('User added successfully');
-        users.push(newUser);
-        this.props.resetView({ users });
+      .then(({ data }) => {
+        console.log('User added successfully: ', data);
+        users.push(data);
+        this.props.changeView('UserList', { users });
       })
       .catch((err) => {
         console.log('Error adding user: ', err);

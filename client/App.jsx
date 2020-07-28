@@ -13,9 +13,7 @@ class App extends React.Component {
       users: [],
       current: {}
     };
-    this.userClick = this.userClick.bind(this);
-    this.newUser = this.newUser.bind(this);
-    this.resetView = this.resetView.bind(this);
+    this.changeView = this.changeView.bind(this);
     this.addProduct = this.addProduct.bind(this);
     this.deleteProduct = this.deleteProduct.bind(this);
     this.deleteUser = this.deleteUser.bind(this);
@@ -23,17 +21,11 @@ class App extends React.Component {
 
   // VIEW CHANGING
 
-  userClick(user) {
-    this.setState({ current: user, view: 'GroceryList' });
-  }
-
-  newUser() {
-    this.setState({ view: 'UserCreate'});
-  }
-
-  resetView(newState) {
-    this.setState(newState);
-    this.setState({ view: 'UserList' });
+  changeView(view, newState) {
+    this.setState({ view });
+    if (newState !== undefined) {
+      this.setState(newState);
+    }
   }
 
   // PRODUCT CHANGES
@@ -99,18 +91,18 @@ class App extends React.Component {
     var { view, users, current } = this.state;
     if (view === 'UserList') {
       return (<>
-        <button onClick={this.newUser}>New here? Click me.</button>
-        <UserList users={users} userClick={this.userClick} newUser={this.newUser} deleteUser={this.deleteUser} />
+        <button onClick={() => this.changeView('UserCreate')}>New here? Click me.</button>
+        <UserList users={users} changeView={this.changeView} deleteUser={this.deleteUser} />
       </>);
     }
     if (view === 'GroceryList') {
       return (
-        <GroceryList user={current} resetView={this.resetView} addProduct={this.addProduct} deleteProduct={this.deleteProduct} />
+        <GroceryList user={current} changeView={this.changeView} addProduct={this.addProduct} deleteProduct={this.deleteProduct} />
       );
     }
     if (view === 'UserCreate') {
       return (
-        <UserCreate resetView={this.resetView} users={users}/>
+        <UserCreate changeView={this.changeView} users={users}/>
       );
     }
   }
