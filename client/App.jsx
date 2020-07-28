@@ -36,16 +36,17 @@ class App extends React.Component {
       name: product.description,
       price: product.items[0].price.regular,
       size: product.items[0].size.split(' ')[0],
-      measurement: product.items[0].size.split(' ')[1],
+      measurement: product.items[0].size.split(' ').slice(1).join(' '),
       productId: product.productId
     };
     current.list.push(temp);
-    this.setState({ current });
     axios.put(`http://localhost:3000/users/${current._id}`, { list: current.list })
       .then(({ data }) => {
+        this.setState({ current });
         console.log('Updated user:', data);
       })
       .catch((err) => {
+        current.pop();
         console.log('Error updating user: ', err);
       });
   }
