@@ -36,7 +36,7 @@ class GroceryList extends React.Component {
   }
 
   render() {
-    var { user, resetView, addProduct } = this.props;
+    var { user, resetView, addProduct, deleteProduct } = this.props;
     return (<>
       <form>
         <label for="newItem">Search for a new item to add: </label>
@@ -49,7 +49,8 @@ class GroceryList extends React.Component {
         <button onClick={resetView}> Not you?</button>
         {user.list.map((item) => {
           return (
-            <div class="grocery-item">{item.name} ${item.price} {item.size} {item.measurement}</div>
+            <div class="grocery-item">{item.name} ${item.price} {item.size} {item.measurement}
+             <button onClick={deleteProduct}>Remove this item</button></div>
           );
         })}
       </div>

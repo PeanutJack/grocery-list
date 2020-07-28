@@ -17,7 +17,11 @@ class App extends React.Component {
     this.newUser = this.newUser.bind(this);
     this.resetView = this.resetView.bind(this);
     this.addProduct = this.addProduct.bind(this);
+    this.deleteProduct = this.deleteProduct.bind(this);
+    this.deleteUser = this.deleteUser.bind(this);
   }
+
+  // VIEW CHANGING
 
   userClick(user) {
     this.setState({ current: user, view: 'GroceryList' });
@@ -32,12 +36,7 @@ class App extends React.Component {
     this.setState({ view: 'UserList' });
   }
 
-  componentDidMount() {
-    axios.get('http://localhost:3000/users')
-      .then(({ data }) => {
-        this.setState({ users: data });
-      });
-  }
+  // PRODUCT CHANGES
 
   addProduct(product) {
     var { current } = this.state;
@@ -56,7 +55,44 @@ class App extends React.Component {
       })
       .catch((err) => {
         console.log('Error updating user: ', err);
+      });
+  }
+
+  deleteProduct(product) {
+    var { current } = this.state;
+    current.list.splice(current.list.indexOf(product), 1);
+    this.setState({ current });
+    axios.put(`http://localhost:3000/users/${current._id}`, { list: current.list })
+      .then(({ data }) => {
+        console.log('Updated user:', data);
       })
+      .catch((err) => {
+        console.log('Error updating user: ', err);
+      });
+  }
+
+  // USER CHANGES
+
+  deleteUser(user) {
+    var { users } = this.state;
+    axios.delete(`http://localhost:3000/users/${user._id}`)
+      .then(({ data }) => {
+        users.splice(users.indexOf(user), 1);
+        this.setState({ users });
+        console.log('Deleted user: ', data);
+      })
+      .catch((err) => {
+        console.log('Error deleting user: ', err);
+      });
+  }
+
+  // REACT METHODS
+
+  componentDidMount() {
+    axios.get('http://localhost:3000/users')
+      .then(({ data }) => {
+        this.setState({ users: data });
+      });
   }
 
   render() {
@@ -64,12 +100,12 @@ class App extends React.Component {
     if (view === 'UserList') {
       return (<>
         <button onClick={this.newUser}>New here? Click me.</button>
-        <UserList users={users} userClick={this.userClick} newUser={this.newUser} />
+        <UserList users={users} userClick={this.userClick} newUser={this.newUser} deleteUser={this.deleteUser} />
       </>);
     }
     if (view === 'GroceryList') {
       return (
-        <GroceryList user={current} resetView={this.resetView} addProduct={this.addProduct} />
+        <GroceryList user={current} resetView={this.resetView} addProduct={this.addProduct} deleteProduct={this.deleteProduct} />
       );
     }
     if (view === 'UserCreate') {
