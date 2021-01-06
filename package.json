@@ -21,7 +21,7 @@
     "@babel/core": "^7.10.5",
     "@babel/preset-env": "^7.10.4",
     "@babel/preset-react": "^7.10.4",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "babel-loader": "^8.1.0",
     "eslint-config-hackreactor": "github:reactorcore/eslint-config-hackreactor",
     "express": "^4.17.1",
